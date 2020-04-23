@@ -151,6 +151,42 @@
 
 (Not (ConstBool [c])) -> (ConstBool [1-c])
 
+// constant folding for math/bits and runtime/internal/sys
+(BitRev8  (Const8  [c])) -> (Const8  [int64(bits.Reverse8(uint8(c)))])
+(BitRev16 (Const16 [c])) -> (Const16 [int64(bits.Reverse16(uint16(c)))])
+(BitRev32 (Const32 [c])) -> (Const32 [int64(bits.Reverse32(uint32(c)))])
+(BitRev64 (Const64 [c])) -> (Const64 [int64(bits.Reverse64(uint64(c)))])
+
+(Bswap32  (Const32 [c])) -> (Const32 [int64(bits.ReverseBytes32(uint32(c)))])
+(Bswap64  (Const64 [c])) -> (Const64 [int64(bits.ReverseBytes64(uint64(c)))])
+
+(BitLen8  (Const8  [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.Len8(uint8(c)))])
+(BitLen8  (Const8  [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.Len8(uint8(c)))])
+(BitLen16 (Const16 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.Len16(uint16(c)))])
+(BitLen16 (Const16 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.Len16(uint16(c)))])
+(BitLen32 (Const32 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.Len32(uint32(c)))])
+(BitLen32 (Const32 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.Len32(uint32(c)))])
+(BitLen64 (Const64 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.Len64(uint64(c)))])
+(BitLen64 (Const64 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.Len64(uint64(c)))])
+
+(Ctz8     (Const8  [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.TrailingZeros8(uint8(c)))])
+(Ctz8     (Const8  [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.TrailingZeros8(uint8(c)))])
+(Ctz16    (Const16 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.TrailingZeros16(uint16(c)))])
+(Ctz16    (Const16 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.TrailingZeros16(uint16(c)))])
+(Ctz32    (Const32 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.TrailingZeros32(uint32(c)))])
+(Ctz32    (Const32 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.TrailingZeros32(uint32(c)))])
+(Ctz64    (Const64 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.TrailingZeros64(uint64(c)))])
+(Ctz64    (Const64 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.TrailingZeros64(uint64(c)))])
+
+(PopCount8  (Const8  [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.OnesCount8(uint8(c)))])
+(PopCount8  (Const8  [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.OnesCount8(uint8(c)))])
+(PopCount16 (Const16 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.OnesCount16(uint16(c)))])
+(PopCount16 (Const16 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.OnesCount16(uint16(c)))])
+(PopCount32 (Const32 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.OnesCount32(uint32(c)))])
+(PopCount32 (Const32 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.OnesCount32(uint32(c)))])
+(PopCount64 (Const64 [c])) && config.PtrSize == 4 -> (Const32 [int64(bits.OnesCount64(uint64(c)))])
+(PopCount64 (Const64 [c])) && config.PtrSize == 8 -> (Const64 [int64(bits.OnesCount64(uint64(c)))])
+
 // Convert x * 1 to x.
 (Mul(8|16|32|64)  (Const(8|16|32|64)  [1]) x) -> x
 

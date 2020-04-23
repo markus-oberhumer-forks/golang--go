@@ -57,6 +57,36 @@ func LeadingZeros8(n uint8) int {
 	return bits.LeadingZeros8(n)
 }
 
+func LeadingZerosConst() int {
+	// amd64:"MOVQ\t\\$57,"
+	// arm64:"MOVD\t\\$57,"
+	return bits.LeadingZeros(64)
+}
+
+func LeadingZeros64Const() int {
+	// amd64:"MOVQ\t\\$57,"
+	// arm64:"MOVD\t\\$57,"
+	return bits.LeadingZeros64(64)
+}
+
+func LeadingZeros32Const() int {
+	// amd64:"MOVQ\t\\$25,"
+	// arm64:"MOVD\t\\$25,"
+	return bits.LeadingZeros32(64)
+}
+
+func LeadingZeros16Const() int {
+	// amd64:"MOVQ\t\\$9,"
+	// arm64:"MOVD\t\\$9,"
+	return bits.LeadingZeros16(64)
+}
+
+func LeadingZeros8Const() int {
+	// amd64:"MOVQ\t\\$1,"
+	// arm64:"MOVD\t\\$1,"
+	return bits.LeadingZeros8(64)
+}
+
 // --------------- //
 //    bits.Len*    //
 // --------------- //
@@ -105,6 +135,14 @@ func Len8(n uint8) int {
 	// wasm:"I64Clz"
 	return bits.Len8(n)
 }
+
+func Len32Const() int {
+	// amd64:"MOVQ\t\\$7,"
+	// arm64:"MOVD\t\\$7,"
+	return bits.Len32(64)
+}
+
+// mfx TODO: add remaining tests
 
 // -------------------- //
 //    bits.OnesCount    //
@@ -158,6 +196,42 @@ func OnesCount8(n uint8) int {
 	return bits.OnesCount8(n)
 }
 
+func OnesCount32Const() int {
+	// arm64:"MOVD\t\\$5,"
+	return bits.OnesCount32(0x01020304)
+}
+
+// mfx TODO: add remaining tests
+
+// ----------------------- //
+//    bits.Reverse         //
+// ----------------------- //
+
+func ReverseConst() uint {
+	// arm64:"MOVD\t\\$2359957123242131456,"
+	return bits.Reverse(0x01020304)
+}
+
+func Reverse64Const() uint64 {
+	// arm64:"MOVD\t\\$1216078140250538112,"
+	return bits.Reverse64(0x0102030405060708)
+}
+
+func Reverse32Const() uint32 {
+	// arm64:"MOVD\t\\$549470336,"
+	return bits.Reverse32(0x01020304)
+}
+
+func Reverse16Const() uint16 {
+	// arm64:"MOVD\t\\$16512,"
+	return bits.Reverse16(0x0102)
+}
+
+func Reverse8Const() uint8 {
+	// arm64:"MOVD\t\\$128,"
+	return bits.Reverse8(0x01)
+}
+
 // ----------------------- //
 //    bits.ReverseBytes    //
 // ----------------------- //
@@ -190,6 +264,33 @@ func ReverseBytes16(n uint16) uint16 {
 	// arm/6:"REV16"
 	// arm/7:"REV16"
 	return bits.ReverseBytes16(n)
+}
+
+func ReverseBytesConst() uint {
+	// 386:"MOVL\t\\$67305985,"
+	// amd64:"MOVQ\t\\$289077004400066560,"
+	// arm64:"MOVD\t\\$289077004400066560,"
+	return bits.ReverseBytes(0x01020304)
+}
+
+func ReverseBytes64Const() uint64 {
+	// amd64:"MOVQ\t\\$578437695752307201,"
+	// arm64:"MOVD\t\\$578437695752307201,"
+	return bits.ReverseBytes64(0x0102030405060708)
+}
+
+func ReverseBytes32Const() uint32 {
+	// 386:"MOVL\t\\$67305985,"
+	// amd64:"MOVL\t\\$67305985,"
+	// arm64:"MOVD\t\\$67305985,"
+	return bits.ReverseBytes32(0x01020304)
+}
+
+func ReverseBytes16Const() uint16 {
+	// 386:"MOVW\t\\$513,"
+	// amd64:"MOVW\t\\$513,"
+	// arm64:"MOVD\t\\$513,"
+	return bits.ReverseBytes16(0x0102)
 }
 
 // --------------------- //
@@ -315,6 +416,14 @@ func TrailingZeros8(n uint8) int {
 	// wasm:"I64Ctz"
 	return bits.TrailingZeros8(n)
 }
+
+func TrailingZeros32Const() int {
+	// amd64:"MOVQ\t\\$7,"
+	// arm64:"MOVD\t\\$7,"
+	return bits.TrailingZeros32(128)
+}
+
+// mfx TODO: add remaining tests
 
 // IterateBitsNN checks special handling of TrailingZerosNN when the input is known to be non-zero.
 
